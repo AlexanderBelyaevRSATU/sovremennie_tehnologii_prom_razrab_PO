@@ -38,7 +38,7 @@
 [source,java]
 ----
 package ru.rsatu;
-import java.lang.Math;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class App2 
 {
@@ -49,8 +49,13 @@ public class App2
     public static void Vivod()
     {
         System.out.println( "Привет от первого дочернего проекта, вызванного вторым как зависимость" );
-        System.out.println( "Модуль числа -5, определённый методом abs класса Math равен:" );
-        System.out.println( Math.abs(-5));
+        System.out.println( "Среднее из чисел 3,5,7, определённый методом getMean() пакета Math3 равен:" );
+        double[] values = new double[]{3,5,7};
+	    DescriptiveStatistics ds = new DescriptiveStatistics();
+	    ds.addValue(values[0]);
+	    ds.addValue(values[1]);
+	    ds.addValue(values[2]);
+	    System.out.println(ds.getMean());
     }
 }
 ----
@@ -283,6 +288,7 @@ package ru.rsatu;
 import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class AppTest 
 {
@@ -296,12 +302,18 @@ public class AppTest
     @Test
     public void testAbs()
     {
-        assertEquals(10, Math.abs(-10));
+	    double[] values = new double[]{1,3,5};
+	    DescriptiveStatistics ds = new DescriptiveStatistics();
+	    ds.addValue(values[0]);
+	    ds.addValue(values[1]);
+	    ds.addValue(values[2]);
+	
+        assertEquals(3, ds.getMean());
     }
 }
 
 ----
-в дополнение к стандартному тесту, создан тест библиотеки Math, который проверяет корректность результата выполнения операции нахождения модуля числа путём сравнения результата операции с заданным значением.
+В дополнение к стандартному тесту, создан тест библиотеки Math3, который проверяет корректность результата выполнения операции нахождения среднего  путём сравнения результата операции с заданным значением.
 
 === 2.5 Сборка проектов
 
@@ -327,12 +339,12 @@ image::Изображения/4.jpg[]
 
 === 2.6 Запуск проекта
 
-Запуск проета возможно произвести из maven, для этого необходимо выполнить команду: mvn clean compile exec:java -Dexec.mainClass="ru.rsatu.App3".
+Запуск проета возможно произвести из maven, для этого необходимо выполнить команду: mvn compile exec:java -Dexec.mainClass="ru.rsatu.App3".
 В этой команде явно указывается класс, который необходимо запустить.
 В результате работы программа вывела на экран строки:
 
 image::Изображения/5.jpg[]
-Одна строка выведена непосредственно методом класса App3, а другие выведены вызванным из него методом класса App2, который в свою очередь для вычисления моделя вызвал метод из класса Math. являющегося внешней зависимостью (данная зависисмость указана в pom-файле родительского проекта).
+Одна строка выведена непосредственно методом класса App3, а другие выведены вызванным из него методом класса App2, который в свою очередь для вычисления моделя вызвал метод из класса DescriptiveStatistics. являющегося внешней зависимостью (данная зависисмость указана в pom-файле родительского проекта).
 
 Созданный jar-файл, содержащий все зависисмости можно запустить стандартной командой java -jar lab2.3-1.0-SNAPSHOT-jar-with-dependencies.jar
 Результат выполнения команды и работы программы:

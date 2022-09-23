@@ -1,12 +1,8 @@
 package ru.rsatu;
 
-import ru.rsatu.App;
-import java.lang.Math;
 
-/**
- * Hello world!
- *
- */
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 public class App2 
 {
     public static void main( String[] args )
@@ -16,7 +12,12 @@ public class App2
     public static void Vivod()
     {
         System.out.println( "Привет от первого дочернего проекта, вызванного вторым как зависимость" );
-        System.out.println( "Модуль числа -5, определённый методом abs класса Math равен:" );
-        System.out.println( Math.abs(-5));
+        System.out.println( "Среднее из чисел 3,5,7, определённый методом getMean() пакета Math3 равен:" );
+        double[] values = new double[]{3,5,7};
+	DescriptiveStatistics ds = new DescriptiveStatistics();
+	ds.addValue(values[0]);
+	ds.addValue(values[1]);
+	ds.addValue(values[2]);
+	System.out.println(ds.getMean());
     }
 }
